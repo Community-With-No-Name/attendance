@@ -1,6 +1,6 @@
 import React, { ChangeEventHandler, HTMLInputTypeAttribute } from 'react'
 import { InputType } from '../../Interfaces/Input';
-
+// ()=>{}
 export default function Input({label, type, value, change, required, id, placeholder, description, disabled}: InputType) {
   return (
     <div>
