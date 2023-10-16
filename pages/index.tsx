@@ -1,10 +1,18 @@
 import AuthPages from "@/components/Auth/AuthPages";
 import Input from "@/components/FormFields/Input";
 import SelectComp from "@/components/SelectComp";
+import StudentList from "@/components/UserList";
 import Image from "next/image";
+import { useState } from "react";
 
 export default function Home() {
-  const handleClick = null;
+
+  
+
+
+  const handleChange =(e) =>{
+    console.log(e.value)
+  };
   return (
     <AuthPages>
       <div>
@@ -23,15 +31,21 @@ export default function Home() {
               label=""
               type="name"
               value={""}
-              change={handleClick}
+              change={handleChange}
               id="1"
-              placeholder="Input Name"
+              placeholder="Search Students"
               description=""
               disabled={false}
               required
             ></Input>
           </div>
           <div> <SelectComp/></div>
+        </div>
+        <div className=" pb-2">
+          <StudentList></StudentList>
+        </div>
+        <div>
+          
         </div>
       </div>
     </AuthPages>
