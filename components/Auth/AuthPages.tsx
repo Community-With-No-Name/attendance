@@ -15,14 +15,14 @@ export default function AuthPages({children}) {
             router.push(`/${school}/login`, `/${school}/login`)
         }
     })
-    React.useEffect(()=>{
-        if(isLoggedIn){
-            router.push(`/ `, '/')
-        }
-        else {
-            router.push(`/${school}/login`, `/${school}/login`)
-        }
-    },[isLoggedIn])
+    // React.useEffect(()=>{
+    //     if(isLoggedIn){
+    //         router.push(`/ `, '/')
+    //     }
+    //     else {
+    //         router.push(`/${school}/login`, `/${school}/login`)
+    //     }
+    // },[isLoggedIn])
   return (
     <div>
         {children}
