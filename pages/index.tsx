@@ -19,8 +19,8 @@ export default function Home() {
   
   }, [])
   
-    const off = 2;
-    const { data } = useQuery({
+    // const off = 2;
+    const { data, isLoading } = useQuery({
       queryKey:[queryKeys.getStudents, schoolId] ,
       queryFn:async () => await getRequest({ url:STUDENTS( schoolId, off)}),
       retry: 2,
@@ -44,9 +44,13 @@ useEffect(()=>{
     students?.filter(std=> std.current_class.name===filterOption)
   )
 }, [filterOption])
+const[off, setOff] = useState(1)
 console.log(filteredStudents)
   const handleChange =(e) =>{
     console.log(e.value)
+  };
+  const paginate = (pageNumber) => {
+    setOff(pageNumber)
   };
   return (
     <AuthPages>
@@ -77,7 +81,7 @@ console.log(filteredStudents)
           <div> <SelectComp setFilterOption={setFilterOption}/></div>
         </div>
         <div className=" pb-2">
-          <StudentList students={filteredStudents} />
+          <StudentList students={filteredStudents} paginate={paginate} isLoading={isLoading} />
         </div>
         <div>
           
