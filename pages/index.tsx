@@ -1,15 +1,50 @@
+import { getRequest } from "@/api/apiCall";
+import { STUDENTS } from "@/api/apiUrl";
+import { queryKeys } from "@/api/queryKey";
 import AuthPages from "@/components/Auth/AuthPages";
 import Input from "@/components/FormFields/Input";
 import SelectComp from "@/components/SelectComp";
 import StudentList from "@/components/UserList";
+import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
-import { useState } from "react";
+import React from "react";
+import { useEffect, useState } from "react";
 
 export default function Home() {
 
+  const [schoolId, setSchoolId] =useState(typeof window !== "undefined" && window.localStorage.getItem("schoolId"))
+
+  useEffect(() => {
+      setSchoolId(typeof window !== "undefined" && window.localStorage.getItem("schoolId"))
   
-
-
+  }, [])
+  
+    const off = 2;
+    const { data } = useQuery({
+      queryKey:[queryKeys.getStudents, schoolId] ,
+      queryFn:async () => await getRequest({ url:STUDENTS( schoolId, off)}),
+      retry: 2,
+    });
+    const [students, setStudents] = useState(data?.data);
+    React.useEffect(() => {
+      setStudents(data?.data);
+    }, [data?.data]);
+  
+  // console.log(students)
+  
+  const [filterOption, setFilterOption] = useState('all')
+  const [filteredStudents, setFilteredStudents] = useState(filterOption==="all" ? students : []);
+useEffect(()=> {
+  setFilteredStudents(filterOption==="all" ? students : [])
+},[students])
+useEffect(()=>{
+  console.log(filterOption)
+  setFilteredStudents(
+    filterOption==='all' ? students :
+    students?.filter(std=> std.current_class.name===filterOption)
+  )
+}, [filterOption])
+console.log(filteredStudents)
   const handleChange =(e) =>{
     console.log(e.value)
   };
@@ -39,10 +74,10 @@ export default function Home() {
               required
             ></Input>
           </div>
-          <div> <SelectComp/></div>
+          <div> <SelectComp setFilterOption={setFilterOption}/></div>
         </div>
         <div className=" pb-2">
-          <StudentList></StudentList>
+          <StudentList students={filteredStudents} />
         </div>
         <div>
           

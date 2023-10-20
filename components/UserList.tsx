@@ -9,31 +9,10 @@ import 'react-loading-skeleton/dist/skeleton.css'
 
 
 
-export default function StudentList() {
+export default function StudentList({students, isLoading, paginate}) {
   
-    const [off, setOff] = useState(1);
+    // const [off, setOff] = useState(1);
 
-const [schoolId, setSchoolId] = useState('')
-useEffect(() => {
-    setSchoolId(localStorage.getItem("schoolId"));
-
-}, [])
-
-    
-  const { data:studentsdata , isLoading } = useQuery({
-    queryKey:[queryKeys.getStudents, schoolId, off] ,
-    queryFn:async () => await getRequest({ url:STUDENTS( schoolId, off)}),
-    enabled: !!schoolId,
-    
-  });
-const [students, setStudents] = useState(studentsdata?.data);
-useEffect(() => {
-    setStudents(studentsdata?.data);
-  }, [studentsdata?.data]);
-  const paginate = (pageNumber) => {
-    setOff(pageNumber)
-  };
-console.log(students)
 
   return (
     <div>
