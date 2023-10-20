@@ -1,59 +1,43 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Pagination from "./Pagination";
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "@/api/queryKey";
 import { getRequest } from "@/api/apiCall";
-import { STUDENTS } from "@/api/apiUrl";
+import { HOMEROOMS, STUDENTS } from "@/api/apiUrl";
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
+
 
 
 export default function StudentList() {
   
+    const [off, setOff] = useState(1);
 
-let schoolId ='';
-
+const [schoolId, setSchoolId] = useState('')
 useEffect(() => {
-    schoolId = localStorage.getItem("schoolId");
+    setSchoolId(localStorage.getItem("schoolId"));
 
 }, [])
 
-  const off = 2;
-  const { data } = useQuery({
-    queryKey:[queryKeys.getStudents, schoolId] ,
+    
+  const { data:studentsdata , isLoading } = useQuery({
+    queryKey:[queryKeys.getStudents, schoolId, off] ,
     queryFn:async () => await getRequest({ url:STUDENTS( schoolId, off)}),
-    retry: 2,
+    enabled: !!schoolId,
+    
   });
-  const [students, setStudents] = useState(data?.data);
-  React.useEffect(() => {
-    setStudents(data?.data);
-  }, [data?.data]);
-
+const [students, setStudents] = useState(studentsdata?.data);
+useEffect(() => {
+    setStudents(studentsdata?.data);
+  }, [studentsdata?.data]);
+  const paginate = (pageNumber) => {
+    setOff(pageNumber)
+  };
 console.log(students)
-
-//   const [currentPage, setCurrentPage] = useState(1);
-//   const [studentPerPage, setStudentPerPage] = useState(5);
-
-//   const paginate = (pageNumber) => {
-//     setCurrentPage(pageNumber)
-//   };
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       const res = await axios.get("https://jsonplaceholder.typicode.com/users");
-//       setStudents(res.data);
-//     };
-//     fetchData();
-//   }, []);
-
-//   const indexOfLastStudents = currentPage * studentPerPage;
-//   const indexofFirstStudents = indexOfLastStudents - studentPerPage;
-//   const currentStudents = students.slice(
-//     indexofFirstStudents,
-//     indexOfLastStudents
-//   );
 
   return (
     <div>
-      <div className=" my-6 border rounded-md shadow-lg px-6">
+      <div className=" my-6 border rou rounded-md shadow-lg px-6">
         <div className=" text-sm font-semibold py-4">Student List</div>
         <div className=" grid grid-cols-5 text-gray-500 text-base pb-8 ">
           <div className=" col-span-2">Name</div>
@@ -61,7 +45,7 @@ console.log(students)
           <div className=" col-span-1">Check In</div>
           <div className=" col-span-1">Check out</div>
         </div>
-        {students && students.map((pupil) => (
+  { isLoading ? <Skeleton count={20} borderRadius={'0.5rem'} ></Skeleton>  : students && students.map((pupil) => (
           <div
             key={pupil.id}
             className=" grid grid-cols-5 text-purple-600 font-semibold text-sm pb-8"
@@ -80,12 +64,10 @@ console.log(students)
               <input type="checkbox" name="" id="" className=" h-5 w-5" />
             </div>
           </div>
-        ))}
-        {/* <Pagination
-          studentPerPage={studentPerPage}
-          totalStudents={students.length}
+        )) }
+        <Pagination
           paginate={paginate}
-        ></Pagination> */}
+        ></Pagination>
       </div>
     </div>
   );
