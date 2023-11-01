@@ -8,13 +8,11 @@ import AuthForm from '@/components/Auth/AuthForm';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import jwtDecode from 'jwt-decode';
 import { useParams } from 'next/navigation';
-import { useToasts } from 'react-toast-notifications';
 import { FaEye, FaMailBulk, FaSignInAlt } from "react-icons/fa"
 import { WebFormImage, MobileFormImage } from '@/components/Auth/FormImage';
 import AuthPages from '@/components/Auth/AuthPages';
 export default function loginPage() {
     const router = useRouter();
-    const { addToast } = useToasts();
     const params:{slug: string} = useParams();
     console.log(params, router.query)
     const school = params?.slug;
@@ -39,10 +37,6 @@ export default function loginPage() {
     };
     const { mutate } = useMutation(login, {
       onSuccess() {
-        addToast("Login Successful", {
-          appearance: "success",
-          autoDismiss: true,
-        });
         localStorage.setItem("schoolId", schoolData?.uid);
         localStorage.setItem("schoolName", schoolData?.name);
         localStorage.setItem("schoolLogo", schoolData?.logo);

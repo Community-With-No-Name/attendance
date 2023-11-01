@@ -1,17 +1,42 @@
-import { getRequest } from "@/api/apiCall";
-import { STUDENTS } from "@/api/apiUrl";
-import { queryKeys } from "@/api/queryKey";
-import AuthPages from "@/components/Auth/AuthPages";
-import Input from "@/components/FormFields/Input";
-import SelectComp from "@/components/SelectComp";
-import StudentList from "@/components/UserList";
-import { useQuery } from "@tanstack/react-query";
-import Image from "next/image";
-import React from "react";
-import { useEffect, useState } from "react";
+import { getRequest, postRequest } from '@/api/apiCall'
+import { MARKATTENDANCE, STUDENTBASIC, STUDENTS } from '@/api/apiUrl'
+import { queryKeys } from '@/api/queryKey'
+import Input from '@/components/FormFields/Input'
+import SelectComp from '@/components/SelectComp'
+import Sidebar from '@/components/Sidebar'
+import Des from '@/components/des'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import React, { useEffect, useState } from 'react'
+import Fuse from 'fuse.js'
+import InActive from '../components/inActive';
+import Button from '@/components/Buttons/Button'
 
-export default function Home() {
+export default function test() {
 
+const fuseOptions = {
+	isCaseSensitive: false,
+	// includeScore: false,
+	shouldSort: true,
+	// includeMatches: false,
+	// findAllMatches: false,
+	// minMatchCharLength: 1,
+	// location: 0,
+	// threshold: 0.6,
+	// distance: 100,
+	// useExtendedSearch: false,
+	// ignoreLocation: false,
+	// ignoreFieldNorm: false,
+	// fieldNormWeight: 1,
+	keys: [
+		"student_name",
+    "current_class"
+		// "author.firstName"
+	]
+};
+const   removeAccents = (str?: string) => {
+  if (!str) return str;
+  return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+};
   const [schoolId, setSchoolId] =useState(typeof window !== "undefined" && window.localStorage.getItem("schoolId"))
 
   useEffect(() => {
@@ -19,16 +44,30 @@ export default function Home() {
   
   }, [])
   
+  const[off, setOff] = useState(1)
     // const off = 2;
     const { data, isLoading } = useQuery({
-      queryKey:[queryKeys.getStudents, schoolId] ,
-      queryFn:async () => await getRequest({ url:STUDENTS( schoolId, off)}),
+      queryKey:[queryKeys.getStudents, schoolId, off] ,
+      queryFn:async () => await getRequest({ url:STUDENTBASIC( schoolId)}),
       retry: 2,
+      enabled: !!schoolId
     });
-    const [students, setStudents] = useState(data?.data);
+    const [students, setStudents] = useState(data?.data?.map(student =>{
+      return {
+        ...student,
+        current_class: removeAccents(student.current_class),
+        student_name: removeAccents(student.student_name),
+      }
+    }));
     React.useEffect(() => {
-      setStudents(data?.data);
-    }, [data?.data]);
+      setStudents(data?.data?.map(student =>{
+        return {
+          ...student,
+          current_class: removeAccents(student.current_class),
+          student_name: removeAccents(student.student_name),
+        }
+      }));
+    }, [data?.data]);4
   
   // console.log(students)
   
@@ -44,7 +83,10 @@ useEffect(()=>{
     students?.filter(std=> std.current_class.name===filterOption)
   )
 }, [filterOption])
-const[off, setOff] = useState(1)
+const [fuse, setFuse] = React.useState(new Fuse(students, fuseOptions))
+React.useEffect(()=>{
+  setFuse(new Fuse(students, fuseOptions))
+},[students])
 console.log(filteredStudents)
   const handleChange =(e) =>{
     console.log(e.value)
@@ -52,41 +94,88 @@ console.log(filteredStudents)
   const paginate = (pageNumber) => {
     setOff(pageNumber)
   };
+  const mutation = useMutation(postRequest,{
+    onSuccess(data){
+      console.log(data)
+      setStudents(data?.data)
+    }
+  })
+  const [search, setSearch] = React.useState("")
+  const handleSearch = (e) => {
+    setSearch(e.target.value)
+  }
+  const handleAttendance = (id: any, type: "string") => {
+    const data = {
+      student_id: id,
+      attendance_type: type
+    }
+    mutation.mutate({data, url:MARKATTENDANCE(schoolId)})
+
+  }
+  const [isActive, setIsActive] = React.useState(typeof window!=='undefined' && JSON.parse(window.localStorage.getItem('attendanceStatus')))
+  React.useEffect(()=>{
+    setIsActive(typeof window!=='undefined' && JSON.parse(window.localStorage.getItem('attendanceStatus')))
+    console.log(typeof window!=='undefined' && JSON.parse(window.localStorage.getItem('attendanceStatus')))
+  },[typeof window!== 'undefined'])
   return (
-    <AuthPages>
-      <div>
-        <div className=" flex flex-col justify-start gap-2  border-b-2 py-4 ">
-          <div className=" text-xl font-bold ">
-            Welcome Back to Musa-School{" "}
-          </div>
-          <div className=" text-lg font-normal">
-            Here are some insights into your daily activities
-          </div>
+    <>
+    {
+      isActive ?
+      <div className='grid lg:grid-cols-6 md:grid-cols-5 grid-cols-1 pt-6 w-full h-full  bg-gray-100'>
+        <div className="lg:cols-span-1 md:grid-cols-2">
+            <Sidebar />
         </div>
-        <div className=" flex justify-between mt-5">
+        <div className="lg:col-span-5 md:col-span-3 md:px-6 h-full">
+        <div className=" flex justify-between items-center mt-5">
           <div>
-            {" "}
-            <Input
-              label=""
-              type="name"
-              value={""}
-              change={handleChange}
-              id="1"
-              placeholder="Search Students"
-              description=""
-              disabled={false}
-              required
-            ></Input>
+          <div>
+        <form onSubmit={(e)=>{
+          e.preventDefault()
+          const newSearch = fuse?.search(removeAccents(search))
+          console.log(newSearch)
+        }} className="flex gap-[6px] px-3 mb-4 md:mb-0 w-full">
+            <div className="w-full flex-grow">
+                <input type='search' onChange={handleSearch} placeholder={"Search Students"} className='px-4 py-[10px] rounded-[4px] border border-[#C7C9D9] placeholder-[#555770] w-full focus:border-[#5F30E2] outline-none ' />
+            </div>
+            <div className="w-full flex-shrink">
+            <Button type={'submit'} size={'md'} value={'Search'} click={()=>{}} location={'end'} disabled={false} />
+            </div>
+        </form>
+    </div>
           </div>
-          <div> <SelectComp setFilterOption={setFilterOption}/></div>
         </div>
-        <div className=" pb-2">
-          <StudentList students={filteredStudents} paginate={paginate} isLoading={isLoading} />
+        <div className="md:block hidden">
+        <Des students={students} mark={handleAttendance} />
         </div>
-        <div>
-          
+        <div className="md:hidden px-3">
+          <div className="grid-cols-1 grid gap-2">
+            <div className="p-4 rounded-lg flex flex-col gap-2 border bg-white">
+              <div className="text-lg font-semibold">
+                Musa Jubril
+              </div>
+              <hr />
+              <div className="grid grid-cols-2">
+                <div className="flex flex-col gap-1 items-center">
+                  <div className="">Check In</div>
+                  <div className="">
+                    <input className='outline-none border-[#D9D9D9] border w-4 h-4 rounded-lg' type="checkbox" name="" id="" />
+                  </div>
+                </div>
+                <div className="flex flex-col gap-1 items-center">
+                <div className="">Check Out</div>
+                  <div className="">
+                    <input className='outline-none border-[#D9D9D9] border w-4 h-4 rounded-lg' type="checkbox" name="" id="" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </AuthPages>
-  );
+        </div>
+    </div>
+    :
+    <InActive />
+            }
+              </>
+  )
 }
