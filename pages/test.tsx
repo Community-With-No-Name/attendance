@@ -9,7 +9,6 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import React, { useEffect, useState } from 'react'
 import Fuse from 'fuse.js'
 import InActive from '../components/inActive';
-import Button from '@/components/Buttons/Button'
 
 export default function test() {
 
@@ -133,13 +132,11 @@ console.log(filteredStudents)
           e.preventDefault()
           const newSearch = fuse?.search(removeAccents(search))
           console.log(newSearch)
-        }} className="flex gap-[6px] px-3 mb-4 md:mb-0 w-full">
-            <div className="w-full flex-grow">
-                <input type='search' onChange={handleSearch} placeholder={"Search Students"} className='px-4 py-[10px] rounded-[4px] border border-[#C7C9D9] placeholder-[#555770] w-full focus:border-[#5F30E2] outline-none ' />
+        }} className="flex-col flex gap-[6px]">
+            <div className="h-10 relative">
+                <input type='search' onChange={handleSearch} placeholder={"Search Students"} className='px-4 py-[10px] h-10 rounded-[4px] border border-[#C7C9D9] placeholder-[#555770] w-full focus:border-[#5F30E2] outline-none ' />
             </div>
-            <div className="w-full flex-shrink">
-            <Button type={'submit'} size={'md'} value={'Search'} click={()=>{}} location={'end'} disabled={false} />
-            </div>
+            <button type="submit">search</button>
         </form>
     </div>
           </div>
@@ -150,7 +147,7 @@ console.log(filteredStudents)
         <div className="md:hidden px-3">
           <div className="grid-cols-1 grid gap-2">
             <div className="p-4 rounded-lg flex flex-col gap-2 border bg-white">
-              <div className="text-lg font-semibold">
+              <div className="text-xl font-semibold">
                 Musa Jubril
               </div>
               <hr />
@@ -158,13 +155,13 @@ console.log(filteredStudents)
                 <div className="flex flex-col gap-1 items-center">
                   <div className="">Check In</div>
                   <div className="">
-                    <input className='outline-none border-[#D9D9D9] border w-4 h-4 rounded-lg' type="checkbox" name="" id="" />
+                    <input type="checkbox" name="" id="" />
                   </div>
                 </div>
                 <div className="flex flex-col gap-1 items-center">
                 <div className="">Check Out</div>
                   <div className="">
-                    <input className='outline-none border-[#D9D9D9] border w-4 h-4 rounded-lg' type="checkbox" name="" id="" />
+                    <input type="checkbox" name="" id="" />
                   </div>
                 </div>
               </div>

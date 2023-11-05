@@ -4,7 +4,7 @@ export interface InputType {
   label: string;
   type: HTMLInputTypeAttribute | undefined;
   value: string | number | readonly string[] | undefined;
-  change: ChangeEventHandler<HTMLInputElement> | undefined;
+  change: any;
   required: boolean;
   id: string;
   placeholder: string;

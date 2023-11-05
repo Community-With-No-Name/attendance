@@ -15,6 +15,6 @@ export interface ButtonType {
   size: string;
   value: string;
   click: MouseEventHandler<HTMLButtonElement> | undefined;
-  location: string;
+  location: "start" | "center" | "end" ;
   disabled: boolean;
 }
