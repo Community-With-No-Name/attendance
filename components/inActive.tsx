@@ -40,7 +40,7 @@ export default function inActive() {
         </div>
         </div>
         <div className="">
-            <Button type={'button'} size={'md'} value={'Start Attendance'} click={handleStartAttendance} location={'center'} disabled={false} />
+            <Button type={'button'} size={'md'} value={'Start Attendance'} click={handleStartAttendance} location={'center'}  />
         </div>
     </div>
   )

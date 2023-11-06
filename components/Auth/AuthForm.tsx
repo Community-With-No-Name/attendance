@@ -22,7 +22,7 @@ export default function AuthForm({ inputs, submit, url, btn }:AuthFormType) {
                   id={inp.id}
                   placeholder={inp.placeholder}
                   description={inp.description}
-                  disabled={false}
+                  
                   Icon={inp.icon}
                 />
               ) : (
@@ -36,7 +36,7 @@ export default function AuthForm({ inputs, submit, url, btn }:AuthFormType) {
                 id={inp.id}
                 placeholder={inp.placeholder}
                 description={inp.description}
-                disabled={false}
+                
                 />
               )}
             </>
