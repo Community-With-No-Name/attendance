@@ -9,12 +9,14 @@ export default function inActive() {
     const [schoolName, setSchoolName] = React.useState<string>()
     const [schoolLogo, setSchoolLogo] = React.useState<string>()
     const [schoolId, setSchoolId] = React.useState<string>()
+    const [school, setSchool] = React.useState<string>()
     
     React.useEffect(() => {
         if(typeof window !== 'undefined'){
             setSchoolName(window.localStorage.getItem("schoolName"))
             setSchoolLogo(window.localStorage.getItem("schoolLogo"))
             setSchoolId(window.localStorage.getItem("schoolId"))
+            setSchool(window.localStorage.getItem("schoolSlug"))
         }
         }, [])
         const {mutate} = useMutation({
@@ -22,7 +24,13 @@ export default function inActive() {
             onSuccess: ()=> {
                 typeof window !== 'undefined' && window.localStorage.setItem("attendanceStatus", JSON.stringify(true))
                 typeof window !== 'undefined' && window.localStorage.setItem("attendanceDate", JSON.stringify(moment(new Date()).format("LL")))
-                window.location.href = `/${schoolId}/attendance`
+                window.location.href = `/${school}/attendance`
+            },
+            onError: (error: {response: any})=> {
+                if(error?.response.data.message==="Attendance for the day  already created"){
+                    window.location.href = `/${school}/attendance`
+                }
+
             }
         })
         const handleStartAttendance=()=> {
