@@ -1,7 +1,7 @@
 import React, { MouseEventHandler } from 'react'
 import { ButtonType } from '../../Interfaces/Button';
 
-export default function Button({size, value, click, location, disabled}: ButtonType) {
+export default function Button({size, value, click, location}: ButtonType) {
   return (
     <div className={`flex justify-${location} w-full`}>
       {

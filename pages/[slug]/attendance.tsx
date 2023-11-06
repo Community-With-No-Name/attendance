@@ -81,7 +81,6 @@ React.useEffect(()=>{
   setPresent(students?.filter(student => student.time_in!==null)?.length)
   setAbsent(students?.filter(student => student.time_in===null)?.length)
 }, [students])
-console.log(students)
   return (
 
       <div className='grid lg:grid-cols-6 md:grid-cols-5 grid-cols-1 pt-6 w-full h-full  bg-white'>
@@ -97,7 +96,7 @@ console.log(students)
                 <input type='search' onChange={handleSearch} placeholder={"Search Students"} className='px-4 py-2 rounded-[4px] border border-[#C7C9D9] placeholder-[#555770] w-full focus:border-[#5F30E2] outline-none ' />
             </div>
             <div className="">
-            <Button type={'submit'} size={'md'} value={'Search'} click={()=>{}} location={'end'} disabled={false} />
+            <Button type={'submit'} size={'md'} value={'Search'} click={()=>{}} location={'end'} />
             </div>
         </form>
         <div className="md:block hidden">

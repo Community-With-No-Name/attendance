@@ -1,12 +1,11 @@
 import React from 'react'
 import Button from '@/components/Buttons/Button'
-import { Typography } from '@material-tailwind/react'
 import { useRouter } from 'next/router'
 
 export default function index() {
   const router = useRouter()
   const handleStartAttendance=()=> {
-    const school = typeof window !== 'undefined'? window.localStorage.getItem('schoolSlug') : undefined
+    const school = typeof window !== 'undefined'? localStorage.getItem('schoolSlug') : ""
     router.push(`/${school}/login`, `/${school}/login`)
 }
   return (
@@ -15,13 +14,13 @@ export default function index() {
     <div className="">
     <div className="mb-5 text-center flex flex-col items-center">
         <img src={"/logo.png"} />
-      <Typography variant="h3" color="blue-gray">
+      <div>
         Attendance Management System
-      </Typography>
+      </div>
     </div>
     </div>
     <div className="">
-        <Button type={'button'} size={'md'} value={'Proceed To Login'} click={handleStartAttendance} location={'center'} disabled={false} />
+        <Button type={'button'} size={'md'} value={'Proceed To Login'} click={handleStartAttendance} location={'center'} />
     </div>
 </div>
   )

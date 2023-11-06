@@ -6,7 +6,6 @@ export interface IconButtonType {
   click: MouseEventHandler<HTMLButtonElement> | undefined;
   location: string;
   Icon: any;
-  disabled: boolean;
   type: "button" | "submit";
 }
 
@@ -16,5 +15,4 @@ export interface ButtonType {
   value: string;
   click: MouseEventHandler<HTMLButtonElement> | undefined;
   location: "start" | "center" | "end" ;
-  disabled: boolean;
 }
