@@ -80,7 +80,6 @@ export default function loginPage() {
                 description:
                 "Email address or mobile number attached to your account",
                 icon: FaMailBulk,
-                disabled: false,
               },
               {
                 label: "Password",
@@ -92,7 +91,6 @@ export default function loginPage() {
                 placeholder: "",
                 description: "Password attached to your account",
                 icon: FaEye,
-                disabled: false,
               },
             ]}
             submit={submitForm}
@@ -103,7 +101,6 @@ export default function loginPage() {
               click: () => {},
               location: "end",
               Icon: FaSignInAlt,
-              disabled: false,
               type: "submit",
             }}
           />

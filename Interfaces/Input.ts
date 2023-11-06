@@ -9,7 +9,6 @@ export interface InputType {
   id: string;
   placeholder: string;
   description: string;
-  disabled: boolean;
 }
 export interface NumberInputType {
   label: string;
@@ -19,7 +18,6 @@ export interface NumberInputType {
   id: string;
   placeholder: string;
   description: string;
-  disabled: boolean;
 }
 export interface TextAreaType {
   label: string;
@@ -28,7 +26,6 @@ export interface TextAreaType {
   required: boolean;
   id: string;
   description: string;
-  disabled: boolean;
   placeholder: string;
 }
 export interface InputIconType {
@@ -40,6 +37,5 @@ export interface InputIconType {
   id: string;
   placeholder: string;
   description: string;
-  disabled: boolean;
   Icon: any;
 }

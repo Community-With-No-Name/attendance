@@ -24,5 +24,4 @@ export interface AuthFormInputType {
   placeholder: string;
   description: string;
   icon: any;
-  disabled: boolean;
 }

@@ -48,7 +48,6 @@ export default function AuthForm({ inputs, submit, url, btn }:AuthFormType) {
               click={btn.click}
               location={btn.location}
               Icon={btn.Icon}
-              disabled={btn.disabled}
               type={btn.type}
             />
           </div>

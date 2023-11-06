@@ -1,6 +1,6 @@
 import React, { ChangeEventHandler, HTMLInputTypeAttribute } from 'react'
 import { InputIconType } from '../../Interfaces/Input';
-export default function InputIcon({label, type, value, change, required, id, placeholder, description, Icon, disabled}: InputIconType) {
+export default function InputIcon({label, type, value, change, required, id, placeholder, description, Icon}: InputIconType) {
   return (
     <div>
         <div className="flex-col flex gap-[6px]">
