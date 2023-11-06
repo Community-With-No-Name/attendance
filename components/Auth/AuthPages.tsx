@@ -8,21 +8,21 @@ export default function AuthPages({children}) {
     React.useEffect(()=>{
         if(typeof window !== 'undefined'){
             const token = window.localStorage?.getItem("easysch_token")
-            setIsLoggedIn(token ? true : false)
+            const status = window.localStorage?.getItem("attendanceStatus")
+            if(token){
+                if(status){
+                    router.asPath!=="/" ?
+                    window.location.href = "/" : ""
+                } else {
+                    
+                }
+            }
+            else {
+                router.asPath.includes("/login") ? "" :
+                window.location.href = `/${school}/login`
+            }
         }
-        else {
-            setIsLoggedIn(false)
-            router.push(`/${school}/login`, `/${school}/login`)
-        }
-    })
-    // React.useEffect(()=>{
-    //     if(isLoggedIn){
-    //         router.push(`/ `, '/')
-    //     }
-    //     else {
-    //         router.push(`/${school}/login`, `/${school}/login`)
-    //     }
-    // },[isLoggedIn])
+    }, [])
   return (
     <div>
         {children}

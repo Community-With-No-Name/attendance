@@ -7,7 +7,7 @@ import { AuthFormInputType, AuthFormType } from '../../Interfaces/Auth';
 export default function AuthForm({ inputs, submit, url, btn }:AuthFormType) {
   return (
     <div className="sm:mx-auto sm:w-full sm:max-w-md">
-      <div className="px-4 py-8 bg-gray-50 sm:rounded-lg sm:px-5">
+      <div className="px-4 py-8 sm:rounded-lg sm:px-5">
         <form className="space-y-6" onSubmit={submit}>
           {inputs.map((inp: AuthFormInputType, i: number) => (
             <>

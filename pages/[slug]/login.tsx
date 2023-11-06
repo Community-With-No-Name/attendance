@@ -14,7 +14,6 @@ import AuthPages from '@/components/Auth/AuthPages';
 export default function loginPage() {
     const router = useRouter();
     const params:{slug: string} = useParams();
-    console.log(params, router.query)
     const school = params?.slug;
     const { data } = useQuery({
       queryKey:[queryKeys.getSchool, school],
@@ -32,7 +31,6 @@ export default function loginPage() {
       password: "",
     });
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      console.log(state);
       setState({ ...state, [event.target.id]: event.target.value });
     };
     const { mutate } = useMutation(login, {
@@ -46,14 +44,15 @@ export default function loginPage() {
         const token = localStorage?.getItem("easysch_token");
         const easysch_token: false | "" | { groups: string[] } | null =
           typeof window !== "undefined" && token && jwtDecode(token);
+          
         if (easysch_token) {
-            router.push(`/`);
+
+            window.location.href = "/inactive"
         }
       },
     });
     const submitForm = (e: any) => {
       e.preventDefault();
-      console.log(state);
       mutate({
         url: LOGIN_URL(schoolData?.uid),
         data: {
@@ -64,10 +63,9 @@ export default function loginPage() {
       });
     };
   return (
-    <AuthPages>
     <div className="grid w-full h-full grid-cols-1 gap-10 sm:grid-cols-2">
         <WebFormImage logo={schoolData?.logo} />
-        <div className="flex flex-col justify-center min-h-screen col-span-1 px-4 bg-gray-50 sm:py-12 sm:px-6 lg:px-8">
+        <div className="flex flex-col justify-center min-h-screen col-span-1 px-4 sm:py-12 sm:px-6 lg:px-8">
           <MobileFormImage logo={schoolData?.logo} name={schoolData?.name} title="Sign In" />
           <AuthForm
             inputs={[
@@ -111,6 +109,5 @@ export default function loginPage() {
           />
         </div>
       </div>
-                </AuthPages>
   )
 }

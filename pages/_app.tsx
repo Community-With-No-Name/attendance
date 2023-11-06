@@ -11,11 +11,11 @@ const montserrat = Montserrat({ subsets: ['latin'] })
 
 export default function App({ Component, pageProps }: AppProps) {
     
-    return  <div className={montserrat.className+" h-screen md:px-10 px-2"}>
+    return  <div className={montserrat.className+" max-h-screen md:px-10 px-2 md:overflow-hidden pb-4"}>
     <QueryClientProvider client={queryClient}>
-         <Hydrate state={pageProps.dehydratedState}>
+         {/* <Hydrate state={pageProps.dehydratedState}> */}
             <Component {...pageProps} />
-         </Hydrate>
+         {/* </Hydrate> */}
         </QueryClientProvider>
             </div>
 }

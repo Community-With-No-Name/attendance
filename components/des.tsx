@@ -3,9 +3,8 @@ import React from 'react'
 import { BiSolidDownArrow, BiSolidUpArrow } from "react-icons/bi"
 
 export default function Des({students, mark}) {
-  console.log(students)
   return (
-    <div className='w-full overflow-y-scroll'>
+    <div className='w-full'>
     <div className="grid w-full py-3 text-sm font-semibold rounded-lg bg-[#000000]/20 pl-11 grid-cols-4 + arrLength(columns)">
   <div className="flex items-start justify-start gap-4 cursor-pointer">
     Full Name
@@ -21,7 +20,7 @@ export default function Des({students, mark}) {
     </div>
   </div>
 </div>
- <div className="flex flex-col w-full">
+ <div className="flex flex-col w-full overflow-y-scroll h-[calc(100vh-160px)] scrollbar-hidden">
       {
         students?.map((std, i)=>(
     <div className="flex items-center justify-between w-full py-3 text-xs font-normal bg-white border-b border-[#e8e8e8]"  key={std.student_id}>

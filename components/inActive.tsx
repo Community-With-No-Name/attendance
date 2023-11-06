@@ -23,14 +23,14 @@ export default function inActive() {
             onSuccess: ()=> {
                 typeof window !== 'undefined' && window.localStorage.setItem("attendanceStatus", JSON.stringify(true))
                 typeof window !== 'undefined' && window.localStorage.setItem("attendanceDate", JSON.stringify(moment(new Date()).format("LL")))
-
+                window.location.reload()
             }
         })
         const handleStartAttendance=()=> {
             mutate()
         }
   return (
-    <div className='h-full w-full flex items-center justify-center flex-col'>
+    <div className='h-screen w-full flex items-center justify-center flex-col'>
         <div className="">
         <div className="mb-5 text-center flex flex-col items-center">
             <img src={schoolLogo} />
@@ -40,7 +40,7 @@ export default function inActive() {
         </div>
         </div>
         <div className="">
-            <Button type={'button'} size={'md'} value={'Start Attendance'} click={handleStartAttendance} location={'middle'} disabled={false} />
+            <Button type={'button'} size={'md'} value={'Start Attendance'} click={handleStartAttendance} location={'center'} disabled={false} />
         </div>
     </div>
   )

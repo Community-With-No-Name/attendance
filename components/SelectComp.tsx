@@ -6,7 +6,6 @@ import React from 'react'
 
 export default function SelectComp({setFilterOption}) {
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log(e.target.value)
     setFilterOption(e.target.value)
   }
   const [school, setSchool] = React.useState(typeof window !== 'undefined' && localStorage.getItem('schoolId'))
@@ -20,7 +19,6 @@ export default function SelectComp({setFilterOption}) {
   React.useEffect(()=> {
     setRooms(data?.data)
   }, [data?.data])
-  // console.log(data)
   return (
     <div>
         <select className='px-4 py-[10px] h-10 rounded-[4px] border border-[#C7C9D9] placeholder-[#555770] w-full focus:border-[#5F30E2] outline-none ' onChange={handleSelect}>

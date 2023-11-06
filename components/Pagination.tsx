@@ -12,15 +12,12 @@ export default function Pagination({ paginate }) {
   }, []);
 
   const lastpage = pagenumbers[pagenumbers.length - 1];
-  //   console.log(lastpage);
 
   const [currentPage, setCurrentpage] = useState(1);
 
   const newpagenumbers = pagenumbers.slice(currentPage - 1, currentPage + 2);
-  //   console.log(newpagenumbers, pagenumbers, currentPage);
 
   const lastpagenumbers = pagenumbers.slice(18, 21);
-  //   console.log(lastpagenumbers, pagenumbers, currentPage);
 
   const handleClicked = (number) => {
     const updatedPagenumbers = pagenumbers.map((page) => {
@@ -33,7 +30,6 @@ export default function Pagination({ paginate }) {
     setCurrentpage(number.num);
   };
 
-  console.log(currentPage);
 
   const prev = () => {
     if (currentPage === 1) {
