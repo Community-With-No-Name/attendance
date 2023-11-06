@@ -1,4 +1,3 @@
-import { Typography } from '@material-tailwind/react'
 import React from 'react'
 import Button from './Buttons/Button'
 import moment from "moment"
@@ -23,21 +22,23 @@ export default function inActive() {
             onSuccess: ()=> {
                 typeof window !== 'undefined' && window.localStorage.setItem("attendanceStatus", JSON.stringify(true))
                 typeof window !== 'undefined' && window.localStorage.setItem("attendanceDate", JSON.stringify(moment(new Date()).format("LL")))
-                window.location.reload()
+                window.location.href = `/${schoolId}/attendance`
             }
         })
         const handleStartAttendance=()=> {
-            mutate()
+            const status = typeof window!=="undefined" ? localStorage.getItem("attendanceStatus") : null
+            if(status){
+                window.location.href = `/${schoolId}/attendance`
+            }
+           else mutate()
         }
   return (
     <div className='h-screen w-full flex items-center justify-center flex-col'>
-        <div className="">
         <div className="mb-5 text-center flex flex-col items-center">
             <img src={schoolLogo} />
-          <Typography variant="h3" color="blue-gray">
-            {schoolName}
-          </Typography>
-        </div>
+            <div className='text-lg'>
+        {schoolName}
+      </div>
         </div>
         <div className="">
             <Button type={'button'} size={'md'} value={'Start Attendance'} click={handleStartAttendance} location={'center'}  />
