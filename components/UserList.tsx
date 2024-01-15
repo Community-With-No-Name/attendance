@@ -11,7 +11,7 @@ import 'react-loading-skeleton/dist/skeleton.css'
 
 export default function StudentList() {
   
-    const [off, setOff] = useState(1);
+const [off, setOff] = useState(1);
 
 const [schoolId, setSchoolId] = useState('')
 useEffect(() => {

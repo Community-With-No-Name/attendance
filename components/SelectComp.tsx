@@ -9,6 +9,14 @@ export default function SelectComp() {
             <option value="">JSS 2</option>
             <option value="">JSS 3</option>
         </select> 
+        {/* <input list="data" />
+        <datalist id='data'>
+          <option value="">one</option>
+          <option value="">two</option>
+          <option value="">three</option>
+          <option value="">four</option>
+          <option value="">five</option>
+        </datalist> */}
     </div>
   )
 }

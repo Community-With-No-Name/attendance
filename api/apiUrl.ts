@@ -4,7 +4,7 @@ const LOGGED_IN = (schoolId: any) => `${API_URL}/schools/${schoolId}`;
 export const LOGIN_URL = (schoolId: any) =>
   `${API_URL}/schools/${schoolId}/token`;
 export const STUDENTS = (schoolId: any, off: any) =>
-  `${LOGGED_IN(schoolId)}/students?limit=20&offset=${off}`;
+  `${LOGGED_IN(schoolId)}/students?limit=20&offset=10`;
 export const HOMEROOMS = (schoolId) =>`${LOGGED_IN(schoolId)}/classes`; 
 
 export const GETSCHOOL = (slug: any) => `${API_URL}/schools/${slug}`;
